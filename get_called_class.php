@@ -1,5 +1,10 @@
 <?php
 if (! function_exists('get_called_class')) {
+	/**
+	 *
+	 * @param void
+	 * @return string
+	 */
 	function get_called_class() {
 		$traces = debug_backtrace();
 		$caller = $traces[1];
@@ -9,7 +14,7 @@ if (! function_exists('get_called_class')) {
 		} else {
 			$file = file($caller['file']);
 			$pattern = sprintf('/([a-zA-Z\_0-9]+)::%s\s*?\(/', $caller['function']);
-			for ($line = $caller['line']; $line > 0; --$line) {
+			for ($line = $caller['line'] - 1; $line > 0; --$line) {
 				if (preg_match($pattern, $file[$line], $matches)) {
 					if ($matches[1] === 'self') $pattern = '/class\s+([a-zA-Z\_0-9]+)\s+/';
 					else return $matches[1];
